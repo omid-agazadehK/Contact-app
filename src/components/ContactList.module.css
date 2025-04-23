@@ -1,0 +1,29 @@
+.container {
+  height: 100vh; /* یا مثلا 600px */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin; 
+  scrollbar-color: #999 transparent; 
+}
+.scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 10px;
+}
+.scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+input[type="checkbox"] {
+  accent-color: rgb(255, 87, 3);
+  width: 20px;
+  height: 20px;
+}
+

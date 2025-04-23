@@ -1,0 +1,6 @@
+.background {
+  padding: 0.8rem;
+  background-color: rgba(225, 232, 233, 0.457);
+  border-radius: 20px;
+  box-shadow: 1px 3px 20px 10px rgba(130, 130, 130, 0.2);
+}

@@ -1,0 +1,78 @@
+.contanier {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  border-bottom: 1px solid rgb(214, 214, 214);
+  padding: 1.5rem;
+
+}
+
+.search > input {
+  color: rgb(83, 83, 83);
+
+  padding: 0.8rem;
+  padding-left: 2rem;
+  width: 350px;
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 0.3rem;
+  font-size: 20px;
+}
+.search > input::placeholder {
+  color: rgb(95, 94, 94);
+  font-size: 14px;
+}
+.search > input:focus {
+  border: 1px solid orange;
+  outline: orange;
+}
+.search > input:hover {
+  border: 1px solid orange;
+  outline: orange;
+}
+.search > svg {
+  position: absolute;
+  top: 50%;
+  left: 3.7%;
+  transform: translate(-50%, -50%);
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: rgb(104, 104, 104);
+}
+.delete_btn {
+  padding: 0.8rem;
+  background-color: rgb(255, 87, 3);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 150ms;
+  cursor: pointer;
+}
+.delete_btn:hover {
+  background-color: rgb(255, 166, 0);
+}
+.disable_delete_btn {
+  padding: 0.8rem;
+  background-color: rgb(113, 113, 113);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: no-drop;
+}
+
+.create_btn {
+  font-size: 14px;
+  padding: 0.8rem;
+  margin-right: 2rem;
+  background-color: rgb(12, 183, 3);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 150ms;
+
+  text-decoration: none;
+}
+.create_btn:hover {
+  background-color: rgb(14, 124, 8);
+}

@@ -1,0 +1,83 @@
+.container {
+  padding: 1.7rem;
+  background-color: white;
+  border-radius: 20px;
+  color: black;
+}
+.return {
+  text-decoration: none;
+  background-color: red;
+  color: white;
+  padding: 0.6rem 2rem;
+  font-weight: 600;
+  transition: background-color 150ms;
+}
+.return:hover {
+  background-color: rgb(216, 1, 1);
+  color: white;
+}
+.page_name {
+  margin-top: 2rem;
+}
+
+input {
+  padding: 0.5rem;
+  border: 2px solid rgb(222, 222, 222);
+  font-size: 16px;
+  font-weight: 600;
+  transition: border 150ms;
+}
+input::placeholder {
+  font-size: 14px;
+  font-weight: 400;
+}
+input:focus {
+  border-color: rgb(23, 30, 245);
+  outline: rgb(23, 30, 245);
+}
+input:hover {
+  border-color: rgb(23, 30, 245);
+  outline: rgb(23, 30, 245);
+}
+.full_name {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.name,
+.last_name,
+.email,
+.job,
+.phone_number {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.8rem;
+  margin-bottom: 10px;
+}
+.last_name,
+.email,
+.job,
+.phone_number,
+.full_name {
+  height: 100px;
+}
+.create_button {
+  width: 550px;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background-color: black;
+  border-color: black;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+.create_button:hover {
+  color: black;
+  background-color: white;
+}
+.error {
+  color: red;
+}

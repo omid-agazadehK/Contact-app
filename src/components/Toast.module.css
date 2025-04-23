@@ -1,0 +1,15 @@
+.container {
+  position: fixed;
+  top: -10rem;
+  right: -50%;
+  border: 1px solid gray;
+  color: rgb(12, 183, 3);
+  background-color: white;
+  padding: 2rem;
+  font-size: 1.5rem;
+  transition: all 300ms ease;
+}
+.up {
+  top: 2rem;
+  right: 2rem;
+}
