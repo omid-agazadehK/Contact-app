@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import api from "../services/config";
-
-import style from "./EditUser.module.css";
 import { UsersContext } from "../contexts/UsersContexts";
-import { submitHanler, validate } from "../utility/script";
+
 import Modal from "../components/modal";
 import Form from "../components/Form";
+
+import api from "../services/config";
+import { submitHanler, validate } from "../utility/script";
+import style from "./EditUser.module.css";
+
 function EditUser() {
   const { id } = useParams();
   const navigate = useNavigate();

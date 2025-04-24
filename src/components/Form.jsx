@@ -1,6 +1,6 @@
-import React from "react";
-import style from "./Form.module.css";
 import { Link } from "react-router";
+
+import style from "./Form.module.css";
 
 function Form({ onSub, inputsData, inputHandler, errors, buttonText,pageMessage }) {
   return (

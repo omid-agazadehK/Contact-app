@@ -1,6 +1,7 @@
-import React from "react";
-import style from "./CreateUserPage.module.css";
 import CreateContact from "../components/CreateContact";
+
+import style from "./CreateUserPage.module.css";
+
 function CreateUserPage() {
   return (
     <div className={style.container}>

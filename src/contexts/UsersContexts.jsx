@@ -1,9 +1,10 @@
 import { createContext, useEffect, useReducer, useState } from "react";
+
 import api from "../services/config";
+
 const insitalState = {
   users: [],
   loading: true,
-  error: false,
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -45,10 +46,7 @@ function UsersProvider({ children }) {
   const [update, setUpdate] = useState({});
 
   const [newCon, setnewCon] = useState("");
-  const [{ users, loading, error }, dispatch] = useReducer(
-    reducer,
-    insitalState
-  );
+  const [{ users, loading }, dispatch] = useReducer(reducer, insitalState);
   //mount
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +55,7 @@ function UsersProvider({ children }) {
           const res = await api.get("/users");
           dispatch({ type: "SUCCESS", payload: res });
         } catch (error) {
-          dispatch({ type: "ERROR", payload: error });
+          console.log(error);
         }
       }, 500);
       return () => clearTimeout(id);
@@ -73,7 +71,7 @@ function UsersProvider({ children }) {
         dispatch({ type: "DELETE", payload: res.id });
         setDeletedId(null);
       } catch (error) {
-        dispatch({ type: "ERROR", payload: error });
+        console.log(error);
       }
     };
     fetchData();
@@ -90,7 +88,7 @@ function UsersProvider({ children }) {
           dispatch({ type: "SELECTE_DELETE", payload: id });
         });
       } catch (error) {
-        dispatch({ type: "ERROR", payload: error });
+        console.log(error);
       } finally {
         setDeleteSelected([]);
       }
@@ -105,7 +103,7 @@ function UsersProvider({ children }) {
         const res = await api.post(`/users`, newCon);
         dispatch({ type: "ADD_USER", payload: res });
       } catch (error) {
-        dispatch({ type: "ERROR", payload: error });
+        console.log(error);
       }
     };
     fetchData();
@@ -131,7 +129,6 @@ function UsersProvider({ children }) {
       value={{
         users,
         loading,
-        error,
         dispatch,
         setDeletedId,
         setnewCon,

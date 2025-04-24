@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router";
-import style from "./ContactHeader.module.css";
+import { useContext, useState } from "react";
 import { UsersContext } from "../contexts/UsersContexts";
+import { Link } from "react-router";
+
 import Modal from "./modal";
+
+import style from "./ContactHeader.module.css";
 
 function ContactHeader({ search, setSearch, selected, setSelected }) {
   const { setDeleteSelected } = useContext(UsersContext);
@@ -37,7 +39,7 @@ function ContactHeader({ search, setSearch, selected, setSelected }) {
             type="text"
             placeholder="Search Contact"
             value={search}
-            onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <div className={style.buttons}>

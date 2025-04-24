@@ -1,4 +1,5 @@
 import EditUser from "../components/EditUser";
+
 import style from "./EditPage.module.css";
 
 function EditPage() {

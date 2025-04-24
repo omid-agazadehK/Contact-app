@@ -1,14 +1,18 @@
 .container {
-  height: 100vh; /* یا مثلا 600px */
+  height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
+.empty_text {
+  margin: 1rem auto;
+  font-size: 1.7rem;
+}
 .scroll {
   flex: 1;
   overflow-y: auto;
-  scrollbar-width: thin; 
-  scrollbar-color: #999 transparent; 
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
 }
 .scroll::-webkit-scrollbar {
   width: 6px;
@@ -26,4 +30,3 @@ input[type="checkbox"] {
   width: 20px;
   height: 20px;
 }
-

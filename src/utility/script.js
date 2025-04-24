@@ -17,8 +17,8 @@ export const validate = (inputsData) => {
   if (lastName.length < 3 || lastName.length > 8) {
     newErrors.lastName = "Character must be between 3 and 8";
   }
-  if (job.length < 3 || job.length > 8) {
-    newErrors.job = "Character must be between 3 and 8";
+  if (job.length < 3 || job.length > 10) {
+    newErrors.job = "Character must be between 3 and 10";
   }
   if (!email || !emailRegex.test(email)) {
     newErrors.email = "Please enter a valid email address";

@@ -1,18 +1,20 @@
 import { useContext, useState } from "react";
-import style from "./ContactList.module.css";
-import Modal from "./modal";
-import Toast from "./Toast";
 import { UsersContext } from "../contexts/UsersContexts";
 import { useNavigate } from "react-router";
+
 import ContactListHeader from "./ContactListHeader";
+import Toast from "./Toast";
 import User from "./User";
+import Modal from "./modal";
+
+import style from "./ContactList.module.css";
 
 function ContactList({ userData, selected, setSelected }) {
   const Navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [newId, setNewId] = useState("");
   const [toast, setToast] = useState(false);
-  const { setDeletedId } = useContext(UsersContext);
+  const { setDeletedId, loading } = useContext(UsersContext);
 
   const checkHanler = (id) => {
     setSelected((prevData) =>
@@ -51,13 +53,17 @@ function ContactList({ userData, selected, setSelected }) {
         />
       )}
       <Toast active={toast} message={"(._.) user deleted successfully."} />
-
       <div className={style.container}>
         <ContactListHeader
           allHandler={allHandler}
           userData={userData}
           selected={selected}
         />
+        {userData.length === 0 && !loading && (
+          <p className={style.empty_text}>
+            Your contact list is empty. Add new contacts to get started!
+          </p>
+        )}
         <div className={style.scroll}>
           {userData &&
             userData.map((user) => (
