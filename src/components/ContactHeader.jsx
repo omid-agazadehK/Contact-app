@@ -1,17 +1,17 @@
-import { useContext, useState } from "react";
-import { UsersContext } from "../contexts/UsersContexts";
+import { useState } from "react";
 import { Link } from "react-router";
 
 import Modal from "./modal";
 
 import style from "./ContactHeader.module.css";
+import useUser from "../hooks/useUser";
 
 function ContactHeader({ search, setSearch, selected, setSelected }) {
-  const { setDeleteSelected } = useContext(UsersContext);
+  const { deleteUsers } = useUser();
   const [active, setActive] = useState(false);
   const deleteHandler = () => {
     if (selected.length === 0) return;
-    setDeleteSelected(selected);
+    deleteUsers(selected);
     setSelected([]);
     setActive(false);
   };
@@ -20,7 +20,7 @@ function ContactHeader({ search, setSearch, selected, setSelected }) {
       {active && (
         <Modal
           setActive={() => setActive(false)}
-          message="hola"
+          message="are u sure u wanna delete this users ?"
           onclick={() => deleteHandler()}
         />
       )}

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 import api from "../services/config";
 
@@ -20,11 +20,6 @@ const reducer = (state, action) => {
         ...state,
         users: [...state.users, action.payload],
       };
-    case "SELECTE_DELETE":
-      return {
-        ...state,
-        users: state.users.filter((user) => user.id != action.payload),
-      };
     case "UPDATE":
       return {
         ...state,
@@ -39,14 +34,48 @@ const reducer = (state, action) => {
       return state;
   }
 };
-export const UsersContext = createContext();
-function UsersProvider({ children }) {
-  const [deletedId, setDeletedId] = useState(null);
-  const [deletedSelected, setDeleteSelected] = useState([]);
-  const [update, setUpdate] = useState({});
 
-  const [newCon, setnewCon] = useState("");
+export const UsersContext = createContext();
+
+function UsersProvider({ children }) {
   const [{ users, loading }, dispatch] = useReducer(reducer, insitalState);
+
+  // delete
+  const deleteUsers = async (usersId = []) => {
+    if (usersId?.length === 0) return;
+    try {
+      await Promise.all(
+        usersId.map((id) =>
+          api.delete(`/users/${id}`).then(() => {
+            dispatch({ type: "DELETE", payload: id });
+          })
+        )
+      );
+    } catch (error) {
+      console.log("Error during delete:", error);
+    }
+  };
+  //post
+  const addUser = async (userData) => {
+    if (!userData) return;
+    try {
+      const res = await api.post(`/users`, userData);
+      dispatch({ type: "ADD_USER", payload: res });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // update
+  const updateUser = async (update) => {
+    if (Object.keys(update).length === 0) return;
+    try {
+      const res = await api.put(`users/${update.id}`, update);
+      dispatch({ type: "UPDATE", payload: res });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   //mount
   useEffect(() => {
     const fetchData = async () => {
@@ -62,78 +91,15 @@ function UsersProvider({ children }) {
     };
     fetchData();
   }, []);
-  //single delete
-  useEffect(() => {
-    if (!deletedId) return;
-    const fetchData = async () => {
-      try {
-        const res = await api.delete(`/users/${deletedId}`);
-        dispatch({ type: "DELETE", payload: res.id });
-        setDeletedId(null);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [deletedId]);
-  //select delete
-  useEffect(() => {
-    if (deletedSelected.length === 0) return;
-    const fetchData = async () => {
-      try {
-        await Promise.all(
-          deletedSelected.map((id) => api.delete(`/users/${id}`))
-        );
-        deletedSelected.forEach((id) => {
-          dispatch({ type: "SELECTE_DELETE", payload: id });
-        });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setDeleteSelected([]);
-      }
-    };
-    fetchData();
-  }, [deletedSelected]);
-  //post
-  useEffect(() => {
-    if (!newCon) return;
-    const fetchData = async () => {
-      try {
-        const res = await api.post(`/users`, newCon);
-        dispatch({ type: "ADD_USER", payload: res });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [newCon]);
-  // update
-  useEffect(() => {
-    if (Object.keys(update).length === 0) return;
-    const fetchData = async () => {
-      try {
-        console.log(update);
-        const res = await api.put(`users/${update.id}`, update);
-        dispatch({ type: "UPDATE", payload: res });
-        setUpdate({});
-      } catch (err) {
-        console.error("Error updating form:", err);
-      }
-    };
-    fetchData();
-  }, [update]);
-
   return (
     <UsersContext.Provider
       value={{
         users,
         loading,
         dispatch,
-        setDeletedId,
-        setnewCon,
-        setDeleteSelected,
-        setUpdate,
+        addUser,
+        updateUser,
+        deleteUsers,
       }}
     >
       {children}

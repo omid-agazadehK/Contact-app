@@ -1,13 +1,16 @@
-import { useContext, useState } from "react";
-import { UsersContext } from "../contexts/UsersContexts";
+import { useState } from "react";
 
 import ContactList from "../components/ContactList";
 import ContactHeader from "../components/ContactHeader";
 
 import style from "./MainPage.module.css";
+import useTitle from "../hooks/useTitle";
+import useUser from "../hooks/useUser";
 
 function MainPage() {
-  const { loading, users } = useContext(UsersContext);
+  useTitle("contact list");
+
+  const { loading, users } = useUser();
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState([]);
   const filteredUsers = users.filter(

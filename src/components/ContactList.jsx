@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { UsersContext } from "../contexts/UsersContexts";
+import {  useState } from "react";
 import { useNavigate } from "react-router";
 
 import ContactListHeader from "./ContactListHeader";
@@ -8,13 +7,14 @@ import User from "./User";
 import Modal from "./modal";
 
 import style from "./ContactList.module.css";
+import useUser from "../hooks/useUser";
 
 function ContactList({ userData, selected, setSelected }) {
   const Navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [newId, setNewId] = useState("");
   const [toast, setToast] = useState(false);
-  const { setDeletedId, loading } = useContext(UsersContext);
+  const { deleteUsers, loading } = useUser();
 
   const checkHanler = (id) => {
     setSelected((prevData) =>
@@ -29,7 +29,7 @@ function ContactList({ userData, selected, setSelected }) {
   };
   const subHanler = () => {
     if (newId.type === "delete") {
-      setDeletedId(newId.id);
+      deleteUsers([newId.id]);
       setToast(true);
       setTimeout(() => {
         setToast(false);

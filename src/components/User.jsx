@@ -1,7 +1,6 @@
-
 import style from "./user.module.css";
 
-function User({ user, checkHanler, selected, setNewId, setActive   }) {
+function User({ user, checkHanler, selected, setNewId, setActive }) {
   const deleteHandler = () => {
     setNewId({ id: user.id, type: "delete" });
     setActive(true);
@@ -13,7 +12,6 @@ function User({ user, checkHanler, selected, setNewId, setActive   }) {
 
   return (
     <>
-
       <div className={style.container}>
         <input
           className={style.input}

@@ -1,61 +1,53 @@
-import { useContext, useState } from "react";
-import { UsersContext } from "../contexts/UsersContexts";
-import { submitHanler, validate } from "../utility/script";
+import {  useState } from "react";
 
 import style from "./CreateContact.module.css";
+
 import Modal from "./modal";
 import Toast from "./Toast";
 import Form from "./Form";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import userSchema from "../schema/form";
+import useUser from "../hooks/useUser";
 
 function CreateContact() {
-  const { setnewCon } = useContext(UsersContext);
-  const [inputsData, setInputsData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    job: "",
-  });
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    job: "",
-  });
+  const { addUser } = useUser();
   const [active, setActive] = useState(false);
   const [toast, setToast] = useState(false);
+  const [data, setData] = useState([]);
   const idGenrator = String(Math.floor(Math.random() * 378 * 79842));
 
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    const currData = { ...inputsData, [name]: value };
-    setInputsData(currData);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(userSchema) });
 
-    const newErrors = validate(currData, setErrors);
-    setErrors((prevError) => ({ ...prevError, [name]: newErrors[name] }));
-  };
+  const { firstName, lastName, email, job, phoneNumber } = data;
 
   const finalSubmit = () => {
-    setnewCon({
+    const userData = {
       id: idGenrator,
-      name: inputsData.firstName + " " + inputsData.lastName,
-      email: inputsData.email,
-      job: inputsData.job,
-      phoneNumber: inputsData.phoneNumber,
-    });
+      name: firstName + " " + lastName,
+      email,
+      job,
+      phoneNumber,
+    };
+
+    addUser(userData);
     setActive(false);
-    setInputsData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      job: "",
-    });
     setToast(true);
     setTimeout(() => {
       setToast(false);
     }, 3000);
+    setData([]);
+    reset();
+  };
+
+  const submitHandlers = (data) => {
+    setData(data);
+    setActive(true);
   };
 
   return (
@@ -70,12 +62,10 @@ function CreateContact() {
       <Toast active={toast} message={"(._.) New user added successfully."} />
       <div className={style.background}>
         <Form
-          onSub={(e) => submitHanler(e, setActive, setErrors, inputsData)}
-          inputsData={inputsData}
-          inputHandler={inputHandler}
+          onSubmit={handleSubmit(submitHandlers)}
           errors={errors}
-          pageMessage={"Create user"}
-          buttonText={"Create contact"}
+          register={register}
+          type="create"
         />
       </div>
     </>

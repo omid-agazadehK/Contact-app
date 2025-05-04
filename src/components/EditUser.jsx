@@ -1,51 +1,43 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { UsersContext } from "../contexts/UsersContexts";
 
 import Modal from "../components/modal";
 import Form from "../components/Form";
 
 import api from "../services/config";
-import { submitHanler, validate } from "../utility/script";
 import style from "./EditUser.module.css";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import userSchema from "../schema/form";
+import useUser from "../hooks/useUser";
 
 function EditUser() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    job: "",
-  });
-  const { setUpdate } = useContext(UsersContext);
-
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    job: "",
-  });
+  const { updateUser } = useUser();
   const [active, setActive] = useState(false);
+  const [formData, setFormData] = useState({});
+  const { firstName, lastName, email, job, phoneNumber } = formData;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchema),
+    values: formData,
+  });
 
-  const inputHandler = (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
-    const currData = { ...userData, [name]: value };
-    setUserData(currData);
-
-    const newErrors = validate(currData, setErrors);
-    setErrors((prevError) => ({ ...prevError, [name]: newErrors[name] }));
+  const submitHandlers = (data) => {
+    setActive(true);
+    setFormData(data);
   };
   const finalSubmit = () => {
-    setUpdate({
+    updateUser({
       id,
-      name: userData.firstName + " " + userData.lastName,
-      email: userData.email,
-      job: userData.job,
-      phoneNumber: userData.phoneNumber,
+      name: firstName + " " + lastName,
+      email,
+      job,
+      phoneNumber,
     });
     setActive(false);
     navigate("/");
@@ -54,23 +46,23 @@ function EditUser() {
     const fetchData = async () => {
       try {
         const res = await api.get(`/users/${id}`);
-        const fname = res.name.split(" ")[0];
-        const lname = res.name.split(" ")[1];
+        const fullName = res.name.split(" ");
         const finalRes = {
           id: res.id,
-          firstName: fname,
-          lastName: lname,
+          firstName: fullName[0],
+          lastName: fullName[1],
           email: res.email,
           phoneNumber: res.phoneNumber,
           job: res.job,
         };
-        setUserData(finalRes);
+        setFormData(finalRes);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
   }, [id]);
+
   return (
     <>
       {active && (
@@ -83,12 +75,10 @@ function EditUser() {
       )}
       <div className={style.background}>
         <Form
-          onSub={(e) => submitHanler(e, setActive, setErrors, userData)}
-          inputsData={userData}
-          inputHandler={inputHandler}
+          onSubmit={handleSubmit(submitHandlers)}
           errors={errors}
-          pageMessage={"Edit user"}
-          buttonText={"Apply edits"}
+          register={register}
+          type="edit"
         />
       </div>
     </>

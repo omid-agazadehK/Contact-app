@@ -80,4 +80,5 @@ input:hover {
 }
 .error {
   color: red;
+  font-weight: 600;
 }
