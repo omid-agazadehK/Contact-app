@@ -1,6 +1,5 @@
 # Contact app
 
----
 
 This is a simple User Management Application built with React, using `useReducer`, `Context API`, and **Yup** for form validation. It allows you to:
 
@@ -14,7 +13,6 @@ This is a simple User Management Application built with React, using `useReducer
 
 ## Technologies Used
 
----
 
 - **React 19**: Frontend framework
 
@@ -30,7 +28,6 @@ This is a simple User Management Application built with React, using `useReducer
 
 ## Installation
 
----
 
 1.  Clone the repository:
 
